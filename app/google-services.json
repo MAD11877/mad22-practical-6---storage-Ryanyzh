@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "745130473052",
+    "project_id": "mad-prac-06",
+    "storage_bucket": "mad-prac-06.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745130473052:android:2c44f56d39d70b8e109899",
+        "android_client_info": {
+          "package_name": "sg.edu.np.mad.helloryan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745130473052-mgdqgah6mmaut8kmru3djgmn7mng8mqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsqomZvCD6d4atcPTvLmJ-HlTR0e_xowU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745130473052-mgdqgah6mmaut8kmru3djgmn7mng8mqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

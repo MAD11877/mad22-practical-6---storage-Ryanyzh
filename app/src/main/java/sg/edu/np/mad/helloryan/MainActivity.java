@@ -11,43 +11,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    User user = new User("Ryan", "Is clueless??", 10, false);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView username = (TextView) findViewById(R.id.title_text);
-        username.setText(user.name);
-
-        TextView description = (TextView) findViewById(R.id.para_text);
-        description.setText(user.description);
-
-        Button follow = (Button) findViewById(R.id.follow_btn);
-        follow.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v)
-            {
-                //event handler
-                user.followed = !(user.followed);
-
-                if (!user.followed){
-                    follow.setText("Follow");
-                    Toast.makeText(getApplicationContext(), "Unfollowed", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    follow.setText("Unfollow");
-                }
-
-            }
-        });
         Intent receive = getIntent();
         String messageTxt = receive.getStringExtra("username");
-        username.setText(messageTxt);
         String messageTxt1 = receive.getStringExtra("description");
-        description.setText(messageTxt1);
         boolean status = receive.getBooleanExtra("following", false);
+
+        User user = new User(messageTxt, messageTxt1, 0, status);
+
+        TextView username = (TextView) findViewById(R.id.title_text);
+        username.setText(messageTxt);
+
+        TextView description = (TextView) findViewById(R.id.para_text);
+        description.setText(messageTxt1);
+
+        Button follow = (Button) findViewById(R.id.follow_btn);
         if (status){
             user.followed = status;
             follow.setText("Unfollow");
@@ -56,6 +38,32 @@ public class MainActivity extends AppCompatActivity {
             user.followed = status;
             follow.setText("Follow");
         }
+
+        DbHandler db = new DbHandler(this);
+
+        follow.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                System.out.println(user.id);
+                //event handler
+                user.followed = !(user.followed);
+
+                if (!user.followed){
+                    follow.setText("Follow");
+                    Toast.makeText(getApplicationContext(), "Unfollowed", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    follow.setText("Unfollow");
+                    Toast.makeText(getApplicationContext(), "Followed", Toast.LENGTH_SHORT).show();
+                }
+                System.out.println(user.followed);
+                db.updateUsers(user);
+                System.out.println("Update");
+            }
+        });
+
+
 
         Button message = (Button) findViewById(R.id.message_btn);
         message.setOnClickListener(new View.OnClickListener(){

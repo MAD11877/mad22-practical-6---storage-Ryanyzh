@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,32 +34,33 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        ArrayList<User> userObjects = new ArrayList<>();
 
+        DbHandler db = new DbHandler(this);
+        ArrayList<User> userObjects = db.getUsers();
 
-        for (int u = 0; u < 20; u++)
+        if (userObjects.size() == 0)
         {
-            Random random = new Random();
-            boolean userFollowed;
-            String userName = "Name";
-            int userId = (int)random.nextInt(999999999);
-            String userDescription = "Description " + Integer.toString(random.nextInt(999999999));
-            int followInt = random.nextInt(2);
-            if (followInt == 1)
+            for (int u = 0; u < 20; u++)
             {
-                userFollowed = true;
+                User newUser = new User();
+                Random random = new Random();
+                newUser.id = u + 1;
+                newUser.name = "Name-" + Integer.toString(random.nextInt(999999999));
+                newUser.description = "Description " + Integer.toString(random.nextInt(999999999));
+                int followInt = random.nextInt(2);
+                if (followInt == 1) { newUser.followed = true; }
+                else { newUser.followed = false; }
+                db.insertMessage(newUser);
+                userObjects.add(newUser);
             }
-            else
-            {
-                userFollowed = false;
-            }
-            User newUser = new User (userName, userDescription, userId, userFollowed);
-            userObjects.add(newUser);
         }
 
-        for (int h = 0; h < userObjects.size(); h++){
-            System.out.println(userObjects.get(h).followed);
+
+        /*ArrayList<User> newUserList = db.getUsers();
+        for(int i = 0; i < newUserList.size(); i++){
+            System.out.println(newUserList.get(i).id);
         }
+         */
 
         RecyclerView rv = findViewById(R.id.rv_id);
         MsgAdapter adapter = new MsgAdapter(userObjects);
@@ -66,7 +68,6 @@ public class ListActivity extends AppCompatActivity {
         rv.setLayoutManager(layout);
         rv.setItemAnimator(new DefaultItemAnimator());
         rv.setAdapter(adapter);
-
 
     }
 }

@@ -52,11 +52,10 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final MsgViewHolder holder, final int position) {
         User sS = data.get(position);
-        String phrase = sS.name + " " + sS.id;
-        holder.nameID.setText(phrase);
+        holder.nameID.setText(sS.name);
         holder.description.setText(sS.description);
 
-        if (!Integer.toString(sS.id).endsWith("7")){
+        if (!sS.name.endsWith("7")){
             holder.pic.setVisibility(View.GONE);
         }
         else{
@@ -72,7 +71,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgViewHolder> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
                 builder.setTitle("Profile");
-                builder.setMessage(phrase);
+                builder.setMessage(sS.name);
                 builder.setCancelable(true);
                 builder.setPositiveButton("Close", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id){
@@ -82,7 +81,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgViewHolder> {
                 builder.setNegativeButton("View", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id){
                         Intent i = new Intent(v.getContext(), MainActivity.class);
-                        i.putExtra("username" , phrase);
+                        i.putExtra("username" , sS.name);
                         i.putExtra("description", sS.description);
                         i.putExtra("following", sS.followed);
                         v.getContext().startActivity(i);
